@@ -26,12 +26,18 @@ public class GeoNet {
             Date quaketime = GeoNet.parseTime((String) properties.get("time"));
             String line = String.format("%02d | %tr %<tb %<td, %<ty | %.1f M     | %04.1f km | %s", i, quaketime, properties.get("magnitude"), properties.get("depth"), properties.get("locality"));
             System.out.println(line);
-            //System.out.println(quakes.get(i).);
         }
         System.out.println("ID | Time                   | Magnitude | Depth   | Locality");
-
-        //return(content);
-        //System.out.println(content);
+    }
+    public static void quakeDetail(int id) throws Exception {
+        System.out.println("Showing data for quake ID " + id);
+        JSONArray quakes = (JSONArray) fetchedJSON.get("features");
+        JSONObject quakedata = (JSONObject) quakes.get(id);
+        JSONObject properties = (JSONObject) quakedata.get("properties");
+        JSONObject geometry = (JSONObject) quakedata.get("geometry");
+        Date quaketime = GeoNet.parseTime((String) properties.get("time"));
+        String out = String.format("Time: %tc\n Magnitude: %.2f M\n Depth: %.2f km\n Locality: %s\n Coordinates: %s\n Quality: %s\n MMI: %d", quaketime, properties.get("magnitude"), properties.get("depth"), properties.get("locality"), geometry.get("coordinates"), properties.get("quality"), properties.get("mmi"));
+        System.out.println(out);
     }
     public static Date parseTime(String timein) throws Exception{
         // parses the JSON time format

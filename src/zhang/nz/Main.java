@@ -7,5 +7,8 @@ public class Main {
         System.out.print("Enter minimum MMI (Modified Mercalli Intensity Scale), 1 - 10: ");
         int mmi = reader.nextInt();
         GeoNet.showQuakes(mmi);
+        System.out.print("Enter Quake ID to show more information: ");
+        int id = reader.nextInt();
+        GeoNet.quakeDetail(id);
     }
 }
