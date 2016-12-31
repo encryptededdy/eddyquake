@@ -11,14 +11,15 @@ import java.util.*;
 
 public class GeoNet {
     public static JSONObject fetchedJSON;
-    public static String showQuakes(int mmi) throws Exception {
+    public static String[] showQuakes(int mmi) throws Exception {
         String content = URLConnectionReader.getText("https://api.geonet.org.nz/quake?MMI=" + mmi);
         // parse the JSON
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(content);
         fetchedJSON = (JSONObject) obj;
         JSONArray quakes = (JSONArray) fetchedJSON.get("features");
-        String output = "Showing last "+ quakes.size()+" quakes in GeoNet with MMI > "+ mmi +"\nID | Time                   | Magnitude | Depth   | Locality\n";
+        String[] output =  new String[quakes.size()];
+        int j = 0;
         for (int i = quakes.size()-1; i >= 0; i--) {
             JSONObject quakedata = (JSONObject) quakes.get(i);
             JSONObject properties = (JSONObject) quakedata.get("properties");
@@ -35,14 +36,14 @@ public class GeoNet {
             } else if (properties.get("magnitude") instanceof Long) {
                 magnitude = ((Long) properties.get("magnitude")).doubleValue();
             }
-            String line = String.format("%02d | %tr %<tb %<td, %<ty | %.1f M     | %04.1f km | %s\n", i, quaketime, magnitude, depth , properties.get("locality"));
-            output = output + line;
+            String line = String.format("%02d | %tr %<tb %<td, %<ty | %.1f M        | %04.1f km | %s", i, quaketime, magnitude, depth , properties.get("locality"));
+            output[j] = line;
+            j++;
         }
-        output = output + "ID | Time                   | Magnitude | Depth   | Locality";
         return output;
     }
-    public static void quakeDetail(int id) throws Exception {
-        System.out.println("Showing data for quake ID " + id);
+    public static String quakeDetail(int id) throws Exception {
+        //System.out.println("Showing data for quake ID " + id);
         JSONArray quakes = (JSONArray) fetchedJSON.get("features");
         JSONObject quakedata = (JSONObject) quakes.get(id);
         JSONObject properties = (JSONObject) quakedata.get("properties");
@@ -60,8 +61,9 @@ public class GeoNet {
         } else if (properties.get("magnitude") instanceof Long) {
             magnitude = ((Long) properties.get("magnitude")).doubleValue();
         }
-        String out = String.format("Time: %tc\n Magnitude: %.2f M\n Depth: %.2f km\n Locality: %s\n Coordinates: %s\n Quality: %s\n MMI: %d", quaketime, magnitude, depth, properties.get("locality"), geometry.get("coordinates"), properties.get("quality"), properties.get("mmi"));
-        System.out.println(out);
+        String out = String.format("%tc\n Magnitude: %.3f M\n Depth: %.2f km\n Locality: %s\n Coordinates: %s\n Quality: %s\n MMI: %d", quaketime, magnitude, depth, properties.get("locality"), geometry.get("coordinates"), properties.get("quality"), properties.get("mmi"));
+        //System.out.println(out);
+        return out;
     }
     public static Date parseTime(String timein) throws Exception{
         // parses the JSON time format
