@@ -30,6 +30,8 @@
             <Separator layoutX="218.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="445.0" prefWidth="7.0" />
             <Separator layoutY="143.0" prefHeight="4.0" prefWidth="220.0" />
             <Label fx:id="details" alignment="TOP_LEFT" layoutX="14.0" layoutY="185.0" prefHeight="228.0" prefWidth="195.0" text="Select a quake" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="datainfobox" layoutX="14.0" layoutY="418.0" text="No data" />
+            <Separator layoutX="-5.0" layoutY="408.0" prefHeight="4.0" prefWidth="226.0" />
       </children>
     </AnchorPane>
   </children>

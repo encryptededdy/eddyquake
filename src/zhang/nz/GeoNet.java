@@ -11,12 +11,17 @@ import java.util.*;
 
 public class GeoNet {
     public static JSONObject fetchedJSON;
-    public static String[] showQuakes(int mmi) throws Exception {
+    public static String getData(int mmi) throws Exception {
+        long startTime = System.currentTimeMillis();
         String content = URLConnectionReader.getText("https://api.geonet.org.nz/quake?MMI=" + mmi);
         // parse the JSON
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(content);
         fetchedJSON = (JSONObject) obj;
+        long stopTime = System.currentTimeMillis();
+        return "Retrieved "+ content.length() +" bytes in " + (stopTime - startTime) + "ms";
+    }
+    public static String[] showQuakes() throws Exception {
         JSONArray quakes = (JSONArray) fetchedJSON.get("features");
         String[] output =  new String[quakes.size()];
         int j = 0;
