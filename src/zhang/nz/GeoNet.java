@@ -41,7 +41,7 @@ public class GeoNet {
             } else if (properties.get("magnitude") instanceof Long) {
                 magnitude = ((Long) properties.get("magnitude")).doubleValue();
             }
-            String line = String.format("%02d | %tr %<tb %<td, %<ty | %.1f M        | %04.1f km | %s", i, quaketime, magnitude, depth , properties.get("locality"));
+            String line = String.format("%02d | %tr %<tb %<td, %<ty | %.1f M        | %05.1f km | %s", i, quaketime, magnitude, depth , properties.get("locality"));
             output[j] = line;
             j++;
         }

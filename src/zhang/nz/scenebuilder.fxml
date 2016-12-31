@@ -17,7 +17,7 @@
             <Button layoutX="64.0" layoutY="105.0" mnemonicParsing="false" onAction="#showButton" prefHeight="25.0" prefWidth="95.0" text="Show" />
             <Label layoutX="21.0" layoutY="26.0" text="Set minimum MMI" />
             <ListView fx:id="list" layoutX="221.0" layoutY="37.0" prefHeight="408.0" prefWidth="603.0" style="-fx-font: 12px &quot;Consolas&quot;;" />
-            <Label layoutX="230.0" layoutY="10.0" text="ID | Time             | Magnitude | Depth | Locality">
+            <Label layoutX="230.0" layoutY="10.0" text="ID | Time             | Magnitude | Depth  | Locality">
                <font>
                   <Font name="Consolas" size="15.0" />
                </font>
