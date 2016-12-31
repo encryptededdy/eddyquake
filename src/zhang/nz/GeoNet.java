@@ -24,7 +24,19 @@ public class GeoNet {
             JSONObject quakedata = (JSONObject) quakes.get(i);
             JSONObject properties = (JSONObject) quakedata.get("properties");
             Date quaketime = GeoNet.parseTime((String) properties.get("time"));
-            String line = String.format("%02d | %tr %<tb %<td, %<ty | %.1f M     | %04.1f km | %s", i, quaketime, properties.get("magnitude"), properties.get("depth"), properties.get("locality"));
+            Double depth = null;
+            if (properties.get("depth") instanceof Double) {
+                depth = (Double) properties.get("depth");
+            } else if (properties.get("depth") instanceof Long) {
+                depth = ((Long) properties.get("depth")).doubleValue();
+            }
+            Double magnitude = null;
+            if (properties.get("magnitude") instanceof Double) {
+                magnitude = (Double) properties.get("magnitude");
+            } else if (properties.get("magnitude") instanceof Long) {
+                magnitude = ((Long) properties.get("magnitude")).doubleValue();
+            }
+            String line = String.format("%02d | %tr %<tb %<td, %<ty | %.1f M     | %04.1f km | %s", i, quaketime, magnitude, depth , properties.get("locality"));
             System.out.println(line);
         }
         System.out.println("ID | Time                   | Magnitude | Depth   | Locality");
@@ -36,7 +48,19 @@ public class GeoNet {
         JSONObject properties = (JSONObject) quakedata.get("properties");
         JSONObject geometry = (JSONObject) quakedata.get("geometry");
         Date quaketime = GeoNet.parseTime((String) properties.get("time"));
-        String out = String.format("Time: %tc\n Magnitude: %.2f M\n Depth: %.2f km\n Locality: %s\n Coordinates: %s\n Quality: %s\n MMI: %d", quaketime, properties.get("magnitude"), properties.get("depth"), properties.get("locality"), geometry.get("coordinates"), properties.get("quality"), properties.get("mmi"));
+        Double depth = null;
+        if (properties.get("depth") instanceof Double) {
+            depth = (Double) properties.get("depth");
+        } else if (properties.get("depth") instanceof Long) {
+            depth = ((Long) properties.get("depth")).doubleValue();
+        }
+        Double magnitude = null;
+        if (properties.get("magnitude") instanceof Double) {
+            magnitude = (Double) properties.get("magnitude");
+        } else if (properties.get("magnitude") instanceof Long) {
+            magnitude = ((Long) properties.get("magnitude")).doubleValue();
+        }
+        String out = String.format("Time: %tc\n Magnitude: %.2f M\n Depth: %.2f km\n Locality: %s\n Coordinates: %s\n Quality: %s\n MMI: %d", quaketime, magnitude, depth, properties.get("locality"), geometry.get("coordinates"), properties.get("quality"), properties.get("mmi"));
         System.out.println(out);
     }
     public static Date parseTime(String timein) throws Exception{
