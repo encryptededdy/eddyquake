@@ -10,13 +10,14 @@ import java.util.*;
 
 
 public class GeoNet {
+    public static JSONObject fetchedJSON;
     public static void showQuakes(int mmi) throws Exception {
         String content = URLConnectionReader.getText("https://api.geonet.org.nz/quake?MMI=" + mmi);
         // parse the JSON
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(content);
-        JSONObject jsonObject = (JSONObject) obj;
-        JSONArray quakes = (JSONArray) jsonObject.get("features");
+        fetchedJSON = (JSONObject) obj;
+        JSONArray quakes = (JSONArray) fetchedJSON.get("features");
         System.out.println("Showing last "+ quakes.size()+" quakes in GeoNet with MMI > "+ mmi);
         System.out.println("ID | Time                   | Magnitude | Depth   | Locality");
         for (int i = quakes.size()-1; i >= 0; i--) {
