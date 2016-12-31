@@ -42,12 +42,8 @@ public class Controller {
                             details.setText(detailinfo);
                         } catch (Exception e) {}
                     }
-                });
+        });
     }
-
-
-
-
 }
 
 
